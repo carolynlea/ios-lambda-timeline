@@ -21,17 +21,16 @@ class ImagePostViewController: ShiftableViewController {
     
     func updateViews() {
         
-        guard let imageData = imageData,
-            let image = UIImage(data: imageData) else {
+        guard let originalImage = originalImage else {
                 title = "New Post"
                 return
         }
         
         title = post?.title
         
-        setImageViewHeight(with: image.ratio)
+        setImageViewHeight(with: originalImage.ratio)
         
-        imageView.image = image
+        imageView.image = image(byFiltering: originalImage)
         
         chooseImageButton.setTitle("", for: [])
     }
@@ -112,15 +111,100 @@ class ImagePostViewController: ShiftableViewController {
         view.layoutSubviews()
     }
     
+    // MARK: - SliderActions
+    
+    @IBAction func addFilter(_ sender: Any)
+    {
+//        let ac = UIAlertController(title: "Choose filter", message: nil, preferredStyle: .actionSheet)
+//        ac.addAction(UIAlertAction(title: "CIBumpDistortion", style: .default, handler: setFilter))
+//        ac.addAction(UIAlertAction(title: "CIGaussianBlur", style: .default, handler: setFilter))
+//        ac.addAction(UIAlertAction(title: "CIPixellate", style: .default, handler: setFilter))
+//        ac.addAction(UIAlertAction(title: "CISepiaTone", style: .default, handler: setFilter))
+//        ac.addAction(UIAlertAction(title: "CITwirlDistortion", style: .default, handler: setFilter))
+//        ac.addAction(UIAlertAction(title: "CIUnsharpMask", style: .default, handler: setFilter))
+//        ac.addAction(UIAlertAction(title: "CIVignette", style: .default, handler: setFilter))
+//        ac.addAction(UIAlertAction(title: "Cancel", style: .cancel))
+//        present(ac, animated: true)
+    }
+    
+
+    
+    @IBAction func brightness(_ sender: Any)
+    {
+        updateViews()
+    }
+    
+    @IBAction func contrast(_ sender: Any)
+    {
+        updateViews()
+    }
+    
+    @IBAction func saturation(_ sender: Any)
+    {
+        updateViews()
+    }
+    
+    @IBAction func intensity(_ sender: Any)
+    {
+        updateViews()
+    }
+    
+    // MARK: Private
+    
+    private func image(byFiltering image: UIImage) -> UIImage?
+    {
+        guard let cgImage = image.cgImage else {return image}
+        
+        let ciImage = CIImage(cgImage: cgImage)
+        filter.setValue(ciImage, forKey: kCIInputImageKey)
+        filter.setValue(brightnessSlider.value, forKey: kCIInputBrightnessKey)
+        filter.setValue(contrastSlider.value, forKey: kCIInputContrastKey)
+        filter.setValue(saturationSlider.value, forKey: kCIInputSaturationKey)
+
+        sepiaFilter?.setValue(filter.outputImage, forKey: kCIInputImageKey)
+        sepiaFilter?.setValue(intensitySlider.value, forKey: kCIInputIntensityKey)
+        
+        guard let outputCIImage = sepiaFilter?.outputImage,
+            let outputCGImage = context.createCGImage(outputCIImage, from: outputCIImage.extent) else {return nil}//extent is size of whole image, can also do just a part
+        return UIImage(cgImage: outputCGImage)
+        
+    }
+    
+    
+    // MARK: - Outlets and Properties
+    
     var postController: PostController!
     var post: Post?
     var imageData: Data?
+    {
+        didSet
+        {
+            guard let imageData = imageData else {return}
+            originalImage = UIImage(data: imageData)
+        }
+    }
+    private let filter = CIFilter(name: "CIColorControls")!
+    private let sepiaFilter = CIFilter(name: "CISepiaTone")
+    private let context = CIContext(options: nil)
+    private var originalImage: UIImage?
+    {
+        didSet
+        {
+            updateViews()
+        }
+    }
     
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var titleTextField: UITextField!
     @IBOutlet weak var chooseImageButton: UIButton!
     @IBOutlet weak var imageHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var postButton: UIBarButtonItem!
+    
+    @IBOutlet var brightnessSlider: UISlider!
+    @IBOutlet var contrastSlider: UISlider!
+    @IBOutlet var saturationSlider: UISlider!
+    @IBOutlet var intensitySlider: UISlider!
+    
 }
 
 extension ImagePostViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
@@ -132,8 +216,8 @@ extension ImagePostViewController: UIImagePickerControllerDelegate, UINavigation
         picker.dismiss(animated: true, completion: nil)
         
         guard let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage else { return }
-        
-        imageView.image = image
+        originalImage = image
+        imageView.image = originalImage
         
         setImageViewHeight(with: image.ratio)
     }
@@ -142,3 +226,36 @@ extension ImagePostViewController: UIImagePickerControllerDelegate, UINavigation
         picker.dismiss(animated: true, completion: nil)
     }
 }
+
+//enum FilterType : String
+//{
+//    case Chrome = "CIPhotoEffectChrome"
+//    case Fade = "CIPhotoEffectFade"
+//    case Instant = "CIPhotoEffectInstant"
+//    case Mono = "CIPhotoEffectMono"
+//    case Noir = "CIPhotoEffectNoir"
+//    case Process = "CIPhotoEffectProcess"
+//    case Tonal = "CIPhotoEffectTonal"
+//    case Transfer =  "CIPhotoEffectTransfer"
+//    case Sepia = "CISepiaTone"
+//    //case Vignette = "CIVignette"
+//    //case VignetteEffect = "CIVignetteEffect"
+//}
+//
+//extension UIImage
+//{
+//    func addFilter(filter : FilterType) -> UIImage
+//    {
+//        let filter = CIFilter(name: filter.rawValue)
+//
+//        // convert UIImage to CIImage and set as input
+//        let ciInput = CIImage(image: self)
+//        filter?.setValue(ciInput, forKey: "inputImage")
+//        // get output CIImage, render as CGImage first to retain proper UIImage scale
+//        let ciOutput = filter?.outputImage
+//        let ciContext = CIContext()
+//        let cgImage = ciContext.createCGImage(ciOutput!, from: (ciOutput?.extent)!)
+//        //Return the image
+//        return UIImage(cgImage: cgImage!)
+//    }
+//}
