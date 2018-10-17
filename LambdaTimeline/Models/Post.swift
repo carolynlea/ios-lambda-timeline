@@ -11,6 +11,7 @@ import FirebaseAuth
 
 enum MediaType: String {
     case image
+    case video
 }
 
 struct Post {
@@ -19,6 +20,15 @@ struct Post {
         self.mediaURL = mediaURL
         self.ratio = ratio
         self.mediaType = .image
+        self.author = author
+        self.comments = [Comment(text: title, author: author)]
+        self.timestamp = timestamp
+    }
+    
+    init(title: String, mediaURL: URL, author: Author, timestamp: Date = Date())
+    {
+        self.mediaURL = mediaURL
+        self.mediaType = .video
         self.author = author
         self.comments = [Comment(text: title, author: author)]
         self.timestamp = timestamp
