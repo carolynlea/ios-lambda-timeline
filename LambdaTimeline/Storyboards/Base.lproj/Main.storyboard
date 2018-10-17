@@ -418,7 +418,7 @@
                                     <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="a1p-af-m2r">
+                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="a1p-af-m2r">
                                             <rect key="frame" x="20" y="5" width="33.5" height="20.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -453,11 +453,95 @@
                         <outlet property="imageView" destination="Q0L-w5-qUw" id="0v7-ZB-mgi"/>
                         <outlet property="imageViewAspectRatioConstraint" destination="y1B-iX-x3e" id="wIt-kh-Tzd"/>
                         <outlet property="titleLabel" destination="jyy-BX-c2c" id="UEd-xO-ipC"/>
+                        <segue destination="THj-XJ-zNG" kind="presentation" identifier="ShowModalAudioView" id="hx4-51-K55"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="CdL-Y3-4ej" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1968.8" y="472.71364317841085"/>
+        </scene>
+        <!--Audio Comment View Controller-->
+        <scene sceneID="Z3G-9W-RqZ">
+            <objects>
+                <viewController id="THj-XJ-zNG" customClass="AudioCommentViewController" customModule="LambdaTimeline" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="4Xt-tc-TYI">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="24" translatesAutoresizingMaskIntoConstraints="NO" id="d4o-lh-iyB">
+                                <rect key="frame" x="20" y="128" width="374" height="208.5"/>
+                                <subviews>
+                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="72" translatesAutoresizingMaskIntoConstraints="NO" id="Jbk-Ax-NNU">
+                                        <rect key="frame" x="0.0" y="0.0" width="374" height="30"/>
+                                        <subviews>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lwS-jB-rpf">
+                                                <rect key="frame" x="0.0" y="0.0" width="151" height="30"/>
+                                                <state key="normal" title="Dismiss"/>
+                                                <connections>
+                                                    <action selector="dismissView:" destination="THj-XJ-zNG" eventType="touchUpInside" id="UOC-6E-BIo"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AHa-5U-MIh">
+                                                <rect key="frame" x="223" y="0.0" width="151" height="30"/>
+                                                <state key="normal" title="Save Recording"/>
+                                                <connections>
+                                                    <action selector="saveRecording:" destination="THj-XJ-zNG" eventType="touchUpInside" id="opw-df-iua"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                    </stackView>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="K1a-jv-Smq">
+                                        <rect key="frame" x="0.0" y="54" width="374" height="30"/>
+                                        <state key="normal" title="Start Recording"/>
+                                        <connections>
+                                            <action selector="startStopRecording:" destination="THj-XJ-zNG" eventType="touchUpInside" id="BJm-bA-5RA"/>
+                                        </connections>
+                                    </button>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="Q9A-lL-807">
+                                        <rect key="frame" x="0.0" y="108" width="374" height="100.5"/>
+                                        <subviews>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OOi-rs-Hzk">
+                                                <rect key="frame" x="0.0" y="0.0" width="374" height="30"/>
+                                                <state key="normal" title="Play Recording"/>
+                                                <connections>
+                                                    <action selector="playRecording:" destination="THj-XJ-zNG" eventType="touchUpInside" id="k91-94-qoT"/>
+                                                </connections>
+                                            </button>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tor-oZ-gQX">
+                                                <rect key="frame" x="0.0" y="40" width="374" height="20.5"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="RgO-5P-W0d">
+                                                <rect key="frame" x="-2" y="70.5" width="378" height="31"/>
+                                                <connections>
+                                                    <action selector="sliderChanged:" destination="THj-XJ-zNG" eventType="valueChanged" id="jyY-Uk-HgQ"/>
+                                                </connections>
+                                            </slider>
+                                        </subviews>
+                                    </stackView>
+                                </subviews>
+                            </stackView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="d4o-lh-iyB" firstAttribute="leading" secondItem="aRx-Fg-FOD" secondAttribute="leading" constant="20" id="QAZ-uN-MR6"/>
+                            <constraint firstItem="aRx-Fg-FOD" firstAttribute="trailing" secondItem="d4o-lh-iyB" secondAttribute="trailing" constant="20" id="aud-BZ-hp7"/>
+                            <constraint firstItem="d4o-lh-iyB" firstAttribute="top" secondItem="aRx-Fg-FOD" secondAttribute="top" constant="84" id="evF-Jy-Pxw"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="aRx-Fg-FOD"/>
+                    </view>
+                    <connections>
+                        <outlet property="playButton" destination="OOi-rs-Hzk" id="z6o-Y3-3at"/>
+                        <outlet property="recordButton" destination="K1a-jv-Smq" id="hSd-DD-fY0"/>
+                        <outlet property="timeSlider" destination="RgO-5P-W0d" id="Z4f-3I-O1X"/>
+                        <outlet property="timerLabel" destination="tor-oZ-gQX" id="eva-DU-357"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="d8f-MK-lWd" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2689.8550724637685" y="473.4375"/>
         </scene>
     </scenes>
 </document>

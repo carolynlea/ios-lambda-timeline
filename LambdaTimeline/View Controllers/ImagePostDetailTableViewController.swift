@@ -31,7 +31,27 @@ class ImagePostDetailTableViewController: UITableViewController {
     // MARK: - Table view data source
     
     @IBAction func createComment(_ sender: Any) {
+        let commentAlert = UIAlertController(title: "What type of comment would you like to add?", message: nil, preferredStyle: .alert)
         
+        let textCommentAction = UIAlertAction(title: "Text Comment", style: .default){ (_) in
+            self.showTextCommentAlert()
+        }
+        
+        let audioCommentAction = UIAlertAction(title: "AudioComment", style: .default) { (_) in
+            self.performSegue(withIdentifier: "ShowModalAudioView", sender: self)
+        }
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        
+        commentAlert.addAction(textCommentAction)
+        commentAlert.addAction(audioCommentAction)
+        commentAlert.addAction(cancelAction)
+        
+        present(commentAlert, animated: true, completion: nil)
+    }
+    
+    func showTextCommentAlert()
+    {
         let alert = UIAlertController(title: "Add a comment", message: "Write your comment below:", preferredStyle: .alert)
         
         var commentTextField: UITextField?
@@ -60,6 +80,7 @@ class ImagePostDetailTableViewController: UITableViewController {
         present(alert, animated: true, completion: nil)
     }
     
+
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return (post?.comments.count ?? 0) - 1
     }
@@ -73,6 +94,14 @@ class ImagePostDetailTableViewController: UITableViewController {
         cell.detailTextLabel?.text = comment?.author.displayName
         
         return cell
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?)
+    {
+        if segue.identifier == ""
+        {
+            
+        }
     }
     
     var post: Post!
