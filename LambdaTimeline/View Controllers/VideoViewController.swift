@@ -118,6 +118,7 @@ class VideoViewController: UIViewController, AVCaptureFileOutputRecordingDelegat
     
     func fileOutput(_ output: AVCaptureFileOutput, didFinishRecordingTo outputFileURL: URL, from connections: [AVCaptureConnection], error: Error?)
     {
+        
         DispatchQueue.main.async {
             self.updateViews()
             PHPhotoLibrary.requestAuthorization({(status) in

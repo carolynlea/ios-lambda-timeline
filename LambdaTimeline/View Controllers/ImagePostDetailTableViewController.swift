@@ -98,9 +98,11 @@ class ImagePostDetailTableViewController: UITableViewController {
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?)
     {
-        if segue.identifier == ""
+        if segue.identifier == "ShowModalAudioView"
         {
-            
+            let audioView = segue.destination as! AudioCommentViewController
+            audioView.post = self.post
+            audioView.postController = self.postController
         }
     }
     

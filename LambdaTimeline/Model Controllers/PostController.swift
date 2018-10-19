@@ -50,7 +50,12 @@ class PostController {
     {
         guard let currentUser = Auth.auth().currentUser,
             let author = Author(user: currentUser) else { return }
+//        let audioURLString = audioURL?.absoluteString
         
+        do
+        {
+            
+        }
         let comment = Comment(author: author, audioURL: audioURL)
         post.comments.append(comment)
         

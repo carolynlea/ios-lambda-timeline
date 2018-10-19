@@ -44,7 +44,7 @@ class AudioCommentViewController: UIViewController, AVAudioPlayerDelegate
     {
         if post != nil 
         {
-           print("save audio here")
+           postController.addAudioComment(with: newRecordingURL(), to: &post)
         }
         dismiss(animated: true, completion: nil)
     }
